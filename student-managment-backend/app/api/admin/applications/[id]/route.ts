@@ -10,7 +10,7 @@ import { ZodError } from 'zod';
 export async function PATCH(
   request: NextRequest,
   context: { params: Promise<{ id: string }> }
-): Promise<Response> {
+) {
   try {
     const body = await request.json();
     const { adminId } = body;
