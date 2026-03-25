@@ -72,7 +72,10 @@ export async function POST(req: Request) {
         details: error.flatten().fieldErrors 
       }, { status: 400 });
     }
-    return NextResponse.json({ error: 'Something went wrong while submitting the application.' }, { status: 500 });
+    return NextResponse.json({ 
+      error: 'Something went wrong while submitting the application.',
+      details: message
+    }, { status: 500 });
   }
 }
 

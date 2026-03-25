@@ -72,6 +72,9 @@ export async function PATCH(
         details: error.flatten().fieldErrors 
       }, { status: 400 });
     }
-    return NextResponse.json({ error: 'Something went wrong while updating the application.' }, { status: 500 });
+    return NextResponse.json({ 
+      error: 'Something went wrong while updating the application.',
+      details: message
+    }, { status: 500 });
   }
 }

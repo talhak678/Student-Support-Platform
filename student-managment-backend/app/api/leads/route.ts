@@ -46,7 +46,8 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ 
-      error: 'Something went wrong while capturing the lead.' 
+      error: 'Something went wrong while capturing the lead.',
+      details: message
     }, { status: 500 });
   }
 }
