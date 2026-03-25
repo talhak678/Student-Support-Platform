@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { adminApplicationUpdateSchema } from '@/lib/validations/admin';
 import { ZodError } from 'zod';
@@ -8,7 +8,7 @@ import { ZodError } from 'zod';
  * @route PATCH /api/admin/applications/[id]
  * TODO: Add Super Admin protection via NextAuth session
  */
-export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const body = await req.json();
     const { adminId } = body; // This will come from auth session (ADMIN/SUPER_ADMIN)
