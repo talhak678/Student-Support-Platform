@@ -8,11 +8,11 @@ import { ZodError } from 'zod';
  * @route PATCH /api/admin/applications/[id]
  * TODO: Add Super Admin protection via NextAuth session
  */
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const body = await req.json();
     const { adminId } = body; // This will come from auth session (ADMIN/SUPER_ADMIN)
-    const { id } = params;
+    const { id } = await params;
 
     if (!adminId) return NextResponse.json({ error: 'Admin ID is required' }, { status: 400 });
 
