@@ -6,15 +6,19 @@ import { ZodError } from 'zod';
 /**
  * @description Admin: Update application status and add internal notes.
  * @route PATCH /api/admin/applications/[id]
- * TODO: Add Super Admin protection via NextAuth session
  */
-export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function PATCH(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+): Promise<Response> {
   try {
-    const body = await req.json();
-    const { adminId } = body; // This will come from auth session (ADMIN/SUPER_ADMIN)
-    const { id } = await params;
+    const body = await request.json();
+    const { adminId } = body;
+    const { id } = await context.params;
 
-    if (!adminId) return NextResponse.json({ error: 'Admin ID is required' }, { status: 400 });
+    if (!adminId) {
+      return NextResponse.json({ error: 'Admin ID is required' }, { status: 400 });
+    }
 
     const validatedData = adminApplicationUpdateSchema.parse(body);
 
@@ -23,7 +27,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       include: { user: true }
     });
 
-    if (!application) return NextResponse.json({ error: 'Application not found' }, { status: 404 });
+    if (!application) {
+      return NextResponse.json({ error: 'Application not found' }, { status: 404 });
+    }
 
     // Update the application status
     const updatedApplication = await db.serviceApplication.update({
