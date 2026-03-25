@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       data: {
         name,
         email,
-        password, // Reminder: Hash this in real implementation
+        password,
         role
       }
     })
