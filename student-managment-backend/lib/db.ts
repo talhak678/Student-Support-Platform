@@ -3,24 +3,24 @@ import { PrismaNeon } from '@prisma/adapter-neon'
 import { Pool } from '@neondatabase/serverless'
 
 const prismaClientSingleton = () => {
-  const connectionString = 
-    process.env.DATABASE_URL || 
-    process.env.POSTGRES_URL || 
-    process.env.POSTGRES_PRISMA_URL ||
-    '';
-    
-  if (!connectionString) {
+  const url = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.POSTGRES_PRISMA_URL;
+  
+  if (!url) {
+    console.warn('⚠️ No database URL found in environment variables.');
     return new PrismaClient();
   }
 
-  const pool = new Pool({ connectionString })
-  
-  const adapter = new PrismaNeon(pool as any)
-  
-  return new PrismaClient({
-    adapter,
-    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-  })
+  try {
+    const pool = new Pool({ connectionString: url });
+    const adapter = new PrismaNeon(pool as any);
+    return new PrismaClient({ 
+      adapter,
+      log: ['error'] 
+    });
+  } catch (error) {
+    console.error('❌ Failed to initialize Prisma with Neon adapter:', error);
+    return new PrismaClient();
+  }
 }
 
 declare global {
