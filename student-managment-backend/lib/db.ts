@@ -7,7 +7,7 @@ const prismaClientSingleton = () => {
   const pool = new Pool({ connectionString })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const adapter = new PrismaNeon(pool as any)
-  return new PrismaClient({ 
+  return new PrismaClient({
     adapter,
     log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
   })

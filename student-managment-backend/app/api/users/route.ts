@@ -21,10 +21,10 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const { name, email, password, role } = await req.json()
-    
+
     // Hash the password before saving
     const hashedPassword = await hashPassword(password)
-    
+
     const user = await db.user.create({
       data: {
         name,
