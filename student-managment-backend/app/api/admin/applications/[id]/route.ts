@@ -9,13 +9,13 @@ import { ZodError } from 'zod';
  */
 export async function PATCH(
   request: NextRequest,
-  context: { params: any }
+  context: { params: { id: string } | Promise<{ id: string }> }
 ) {
   try {
     const body = await request.json();
     const { adminId } = body;
-    const params = await context.params;
-    const id: string = params.id;
+    const resolvedParams = await context.params;
+    const id = resolvedParams.id;
 
     if (!adminId) {
       return NextResponse.json({ error: 'Admin ID is required' }, { status: 400 });
