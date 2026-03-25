@@ -95,8 +95,10 @@ export async function POST(req: Request) {
       data: profile,
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('[ONBOARDING_POST_ERROR]', error);
+
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
 
     if (error instanceof ZodError) {
       return NextResponse.json({ 
@@ -106,7 +108,8 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ 
-      error: 'Something went wrong while saving onboarding data.' 
+      error: 'Something went wrong while saving onboarding data.',
+      details: errorMessage
     }, { status: 500 });
   }
 }

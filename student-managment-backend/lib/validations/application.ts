@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ServiceType, ApplicationStatus } from "@prisma/client";
+import { ServiceType } from "@prisma/client";
 
 export const applicationSchema = z.object({
   serviceType: z.nativeEnum(ServiceType),

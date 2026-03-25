@@ -9,7 +9,7 @@ export async function GET() {
       }
     })
     return NextResponse.json(users)
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 })
   }
 }
@@ -26,7 +26,8 @@ export async function POST(req: Request) {
       }
     })
     return NextResponse.json(user)
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

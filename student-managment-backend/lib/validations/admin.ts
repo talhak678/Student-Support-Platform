@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ApplicationStatus, UserRole } from "@prisma/client";
+import { ApplicationStatus } from "@prisma/client";
 
 export const adminApplicationUpdateSchema = z.object({
   status: z.nativeEnum(ApplicationStatus).optional(),
