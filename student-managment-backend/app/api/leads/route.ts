@@ -34,8 +34,9 @@ export async function POST(req: Request) {
       data: lead,
     }, { status: 201 });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('[LEAD_POST_ERROR]', error);
+    const message = error instanceof Error ? error.message : 'Unknown error';
 
     if (error instanceof ZodError) {
       return NextResponse.json({ 

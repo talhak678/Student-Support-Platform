@@ -9,7 +9,7 @@ export async function GET() {
       }
     })
     return NextResponse.json(users)
-  } catch (_error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 })
   }
 }

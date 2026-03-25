@@ -63,8 +63,9 @@ export async function PATCH(
       data: updatedApplication,
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('[ADMIN_APP_PATCH_ERROR]', error);
+    const message = error instanceof Error ? error.message : 'Unknown error';
     if (error instanceof ZodError) {
       return NextResponse.json({ 
         error: 'Validation failed', 

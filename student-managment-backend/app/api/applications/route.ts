@@ -63,8 +63,9 @@ export async function POST(req: Request) {
       data: application,
     }, { status: 201 });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('[APPLICATION_POST_ERROR]', error);
+    const message = error instanceof Error ? error.message : 'Unknown error';
     if (error instanceof ZodError) {
       return NextResponse.json({ 
         error: 'Validation failed', 
