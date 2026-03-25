@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import db from '@/lib/db'
+import { hashPassword } from '@/lib/passwords'
 
 export const dynamic = 'force-dynamic';
 
@@ -12,7 +13,7 @@ export async function GET() {
       }
     })
     return NextResponse.json(users)
-  } catch {
+  } catch (_error) {
     return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 })
   }
 }
@@ -20,11 +21,15 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const { name, email, password, role } = await req.json()
+    
+    // Hash the password before saving
+    const hashedPassword = await hashPassword(password)
+    
     const user = await db.user.create({
       data: {
         name,
         email,
-        password,
+        password: hashedPassword,
         role
       }
     })
