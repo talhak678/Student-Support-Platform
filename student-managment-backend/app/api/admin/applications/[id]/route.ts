@@ -1,14 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import db from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
+
 import { adminApplicationUpdateSchema } from '@/lib/validations/admin';
 import { ZodError } from 'zod';
 
-/**
- * @description Admin: Update application status and add internal notes.
- * @route PATCH /api/admin/applications/[id]
- */
 export async function PATCH(
-  request: NextRequest,
+  request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
