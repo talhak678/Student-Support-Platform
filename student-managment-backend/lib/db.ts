@@ -3,15 +3,10 @@ import { PrismaNeon } from '@prisma/adapter-neon'
 import { Pool } from '@neondatabase/serverless'
 
 const prismaClientSingleton = () => {
-  if (process.env.VERCEL) {
-    const url = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.POSTGRES_PRISMA_URL;
-    if (url) {
-      const pool = new Pool({ connectionString: url.trim().replace(/^["']|["']$/g, '') });
-      const adapter = new PrismaNeon(pool as any);
-      return new PrismaClient({ adapter });
-    }
-  }
-  return new PrismaClient();
+  return new PrismaClient({
+    // Enable logging in dev for better monitoring
+    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+  });
 }
 
 declare global {
