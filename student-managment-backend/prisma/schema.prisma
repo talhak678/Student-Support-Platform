@@ -9,7 +9,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // Connection URLs are managed via prisma.config.ts (Prisma v7)
+  url      = env("DATABASE_URL")
 }
 
 // ================================================================
