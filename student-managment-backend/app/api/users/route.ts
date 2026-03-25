@@ -13,8 +13,14 @@ export async function GET() {
       }
     })
     return NextResponse.json(users)
-  } catch (_error) {
-    return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ 
+      error: 'Database Error', 
+      details: message,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      stack: (error as any)?.stack 
+    }, { status: 500 })
   }
 }
 
