@@ -3,12 +3,15 @@ import { PrismaNeon } from '@prisma/adapter-neon'
 import { Pool } from '@neondatabase/serverless'
 
 const prismaClientSingleton = () => {
-  const url = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.POSTGRES_PRISMA_URL;
+  let url = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.POSTGRES_PRISMA_URL;
   
   if (!url) {
     console.warn('⚠️ No database URL found in environment variables.');
     return new PrismaClient();
   }
+
+  // Clean the URL (remove quotes and extra spaces)
+  url = url.trim().replace(/^["']|["']$/g, '');
 
   try {
     const pool = new Pool({ connectionString: url });
